@@ -163,21 +163,25 @@ INSERT INTO users (email, password_hash, first_name, last_name, role) VALUES
 ('admin@example.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Admin', 'User', 'owner')
 ON CONFLICT (email) DO NOTHING;
 
--- Insert sample products
-INSERT INTO products (name, description, price, original_price, category, brand, image, rating, reviews, in_stock) VALUES
+-- Insert sample products (only if they don't exist)
+INSERT INTO products (name, description, price, original_price, category, brand, image, rating, reviews, in_stock) 
+SELECT * FROM (VALUES
 ('Sony WH-1000XM4 Headphones', 'Industry-leading noise canceling with Dual Noise Sensor technology', 279.99, 349.99, 'Electronics', 'Sony', 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400', 4.8, 2847, true),
 ('Apple Watch Series 9', 'The most advanced Apple Watch with health and fitness features', 399.99, 429.99, 'Electronics', 'Apple', 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400', 4.7, 1923, true),
 ('Samsung Galaxy S24', 'Latest flagship smartphone with AI-powered features', 999.99, 1099.99, 'Electronics', 'Samsung', 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400', 4.6, 2100, true),
 ('Nike Air Max 270', 'Comfortable running shoes with Max Air cushioning', 129.99, 150.00, 'Sports', 'Nike', 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400', 4.6, 1234, true),
 ('MacBook Pro 16-inch', 'Professional laptop with M3 Pro chip', 2499.99, 2799.99, 'Electronics', 'Apple', 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400', 4.9, 445, true)
-ON CONFLICT (name) DO NOTHING;
+) AS v(name, description, price, original_price, category, brand, image, rating, reviews, in_stock)
+WHERE NOT EXISTS (SELECT 1 FROM products WHERE products.name = v.name);
 
--- Insert sample shipping methods
-INSERT INTO shipping_methods (name, type, cost, estimated_days, description, regions) VALUES
+-- Insert sample shipping methods (only if they don't exist)
+INSERT INTO shipping_methods (name, type, cost, estimated_days, description, regions)
+SELECT * FROM (VALUES
 ('Standard Shipping', 'standard', 5.00, '5-7 business days', 'Economical shipping option for domestic orders', ARRAY['US', 'CA']),
 ('Express Shipping', 'express', 15.00, '2-3 business days', 'Faster shipping for urgent domestic deliveries', ARRAY['US']),
 ('Free Shipping', 'free', 0.00, '7-10 business days', 'Free shipping for orders over $50', ARRAY['US'])
-ON CONFLICT (name) DO NOTHING;
+) AS v(name, type, cost, estimated_days, description, regions)
+WHERE NOT EXISTS (SELECT 1 FROM shipping_methods WHERE shipping_methods.name = v.name);
 
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_products_category ON products(category);
