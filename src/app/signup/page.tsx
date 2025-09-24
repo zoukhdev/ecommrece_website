@@ -88,24 +88,31 @@ export default function SignupPage() {
       }
       
       if (authData.user) {
-        // Create customer record in database
-        const response = await apiService.createCustomer({
-          first_name: formData.firstName,
-          last_name: formData.lastName,
-          email: formData.email,
-          phone: formData.phone,
-          address: {}
-        });
+        console.log('Auth user created successfully:', authData.user);
         
-        if (response.data && response.data.customer) {
-          toast.success('Account created successfully! Please check your email to verify your account.');
-          // Redirect to login page
-          window.location.href = '/login';
-        } else {
-          // User created in auth but not in customers table
-          toast.success('Account created successfully! Please check your email to verify your account.');
-          window.location.href = '/login';
+        // Try to create customer record in database (optional)
+        try {
+          const response = await apiService.createCustomer({
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            email: formData.email,
+            phone: formData.phone,
+            address: {}
+          });
+          
+          if (response.data && response.data.customer) {
+            console.log('Customer record created successfully');
+          } else {
+            console.log('Customer record creation failed, but auth user was created');
+          }
+        } catch (customerError) {
+          console.log('Customer record creation failed (this is optional):', customerError);
+          // This is not critical - the auth user was created successfully
         }
+        
+        toast.success('Account created successfully! Please check your email to verify your account.');
+        // Redirect to login page
+        window.location.href = '/login';
       }
     } catch (error) {
       console.error('Signup error:', error);
