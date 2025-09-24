@@ -14,7 +14,43 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Use Supabase authentication
+    // Check for demo credentials first (for development/testing)
+    const demoUsers = [
+      { email: 'admin@eshop.com', password: 'admin123', role: 'owner', firstName: 'Admin', lastName: 'User' },
+      { email: 'manager@eshop.com', password: 'manager123', role: 'developer', firstName: 'Manager', lastName: 'User' }
+    ];
+    
+    const demoUser = demoUsers.find(user => user.email === email && user.password === password);
+    
+    if (demoUser) {
+      // Create demo user data
+      const userDetails = {
+        id: 'demo-' + Date.now(),
+        email: demoUser.email,
+        first_name: demoUser.firstName,
+        last_name: demoUser.lastName,
+        role: demoUser.role,
+        is_active: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+      
+      // Create a session token
+      const token = Buffer.from(JSON.stringify({
+        userId: userDetails.id,
+        email: userDetails.email,
+        role: userDetails.role,
+        exp: Date.now() + 24 * 60 * 60 * 1000 // 24 hours
+      })).toString('base64');
+      
+      return NextResponse.json({
+        user: userDetails,
+        token,
+        message: 'Login successful (demo mode)'
+      });
+    }
+    
+    // Use Supabase authentication for real users
     const { data, error } = await signIn(email, password);
     
     if (error) {
