@@ -208,7 +208,13 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
--- Create triggers for updated_at
+-- Create triggers for updated_at (drop and recreate to handle duplicates)
+DROP TRIGGER IF EXISTS update_products_updated_at ON products;
+DROP TRIGGER IF EXISTS update_users_updated_at ON users;
+DROP TRIGGER IF EXISTS update_customers_updated_at ON customers;
+DROP TRIGGER IF EXISTS update_orders_updated_at ON orders;
+DROP TRIGGER IF EXISTS update_support_tickets_updated_at ON support_tickets;
+
 CREATE TRIGGER update_products_updated_at BEFORE UPDATE ON products FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON users FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_customers_updated_at BEFORE UPDATE ON customers FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
@@ -227,7 +233,13 @@ ALTER TABLE discount_codes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE shipping_methods ENABLE ROW LEVEL SECURITY;
 ALTER TABLE support_tickets ENABLE ROW LEVEL SECURITY;
 
--- Create policies for public access to products and categories
+-- Create policies for public access to products and categories (drop and recreate to handle duplicates)
+DROP POLICY IF EXISTS "Products are viewable by everyone" ON products;
+DROP POLICY IF EXISTS "Categories are viewable by everyone" ON categories;
+DROP POLICY IF EXISTS "Shipping methods are viewable by everyone" ON shipping_methods;
+DROP POLICY IF EXISTS "Users can view their own data" ON users;
+DROP POLICY IF EXISTS "Admins can manage all data" ON products;
+
 CREATE POLICY "Products are viewable by everyone" ON products FOR SELECT USING (true);
 CREATE POLICY "Categories are viewable by everyone" ON categories FOR SELECT USING (true);
 CREATE POLICY "Shipping methods are viewable by everyone" ON shipping_methods FOR SELECT USING (is_active = true);
@@ -242,7 +254,10 @@ CREATE POLICY "Admins can manage all data" ON products FOR ALL USING (
     )
 );
 
--- Create policies for customers
+-- Create policies for customers (drop and recreate to handle duplicates)
+DROP POLICY IF EXISTS "Customers can view their own orders" ON orders;
+DROP POLICY IF EXISTS "Customers can create orders" ON orders;
+
 CREATE POLICY "Customers can view their own orders" ON orders FOR SELECT USING (
     customer_id IN (
         SELECT id FROM customers WHERE email = auth.jwt() ->> 'email'
