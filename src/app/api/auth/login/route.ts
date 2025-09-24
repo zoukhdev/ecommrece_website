@@ -86,7 +86,9 @@ export async function POST(request: NextRequest) {
     }
     
     // Check if user exists in our users table, if not create a basic user record
+    console.log('Checking for user in users table:', authUser.id);
     let userDetails = await getUser(authUser.id);
+    console.log('User details from users table:', userDetails);
     
     if (!userDetails) {
       // User doesn't exist in our users table, create a basic record
@@ -98,6 +100,15 @@ export async function POST(request: NextRequest) {
       const email = authUser.email || '';
       
       // Create user record in our users table
+      console.log('Creating user with data:', {
+        email: email,
+        first_name: firstName,
+        last_name: lastName,
+        role: 'staff',
+        is_active: true,
+        password_hash: ''
+      });
+      
       const newUser = await createUser({
         email: email,
         first_name: firstName,
@@ -106,6 +117,8 @@ export async function POST(request: NextRequest) {
         is_active: true, // Supabase Auth users are active by default
         password_hash: '' // No password hash needed for Supabase Auth users
       });
+      
+      console.log('User creation result:', newUser);
       
       if (newUser) {
         userDetails = newUser;
@@ -127,7 +140,11 @@ export async function POST(request: NextRequest) {
     }
     
     // Check if user is active
+    console.log('Final user details:', userDetails);
+    console.log('User active status:', userDetails.is_active);
+    
     if (!userDetails.is_active) {
+      console.log('User account is deactivated');
       return NextResponse.json(
         { error: 'Account is deactivated' },
         { status: 401 }
