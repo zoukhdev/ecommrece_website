@@ -14,8 +14,13 @@ async function testYourLogin() {
   
   // You can modify these values to test your actual credentials
   const testCredentials = [
+    // Admin credentials
     { email: 'admin@eshop.com', password: 'admin123', description: 'Demo Admin' },
-    { email: 'manager@eshop.com', password: 'manager123', description: 'Demo Manager' }
+    { email: 'manager@eshop.com', password: 'manager123', description: 'Demo Manager' },
+    // Customer credentials
+    { email: 'customer@eshop.com', password: 'customer123', description: 'Demo Customer' },
+    { email: 'john@example.com', password: 'john123', description: 'Demo Customer John' },
+    { email: 'jane@example.com', password: 'jane123', description: 'Demo Customer Jane' }
     // Add your actual credentials here:
     // { email: 'your-email@example.com', password: 'your-password', description: 'Your Account' }
   ];

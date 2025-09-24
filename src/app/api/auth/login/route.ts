@@ -16,8 +16,13 @@ export async function POST(request: NextRequest) {
     
     // Check for demo credentials first (for development/testing)
     const demoUsers = [
+      // Admin users (for admin dashboard)
       { email: 'admin@eshop.com', password: 'admin123', role: 'owner', firstName: 'Admin', lastName: 'User' },
-      { email: 'manager@eshop.com', password: 'manager123', role: 'developer', firstName: 'Manager', lastName: 'User' }
+      { email: 'manager@eshop.com', password: 'manager123', role: 'developer', firstName: 'Manager', lastName: 'User' },
+      // Customer users (for customer login)
+      { email: 'customer@eshop.com', password: 'customer123', role: 'customer', firstName: 'Demo', lastName: 'Customer' },
+      { email: 'john@example.com', password: 'john123', role: 'customer', firstName: 'John', lastName: 'Doe' },
+      { email: 'jane@example.com', password: 'jane123', role: 'customer', firstName: 'Jane', lastName: 'Smith' }
     ];
     
     const demoUser = demoUsers.find(user => user.email === email && user.password === password);
