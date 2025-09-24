@@ -94,7 +94,7 @@ export default function AdminInventory() {
         maxStock: parseInt(newItem.maxStock),
         cost: parseFloat(newItem.cost),
         price: parseFloat(newItem.price),
-        status: parseInt(newItem.currentStock) <= parseInt(newItem.minStock) ? 'low_stock' : 'in_stock',
+        status: (parseInt(newItem.currentStock) <= parseInt(newItem.minStock) ? 'low_stock' : 'in_stock') as 'in_stock' | 'low_stock' | 'out_of_stock',
         lastUpdated: new Date().toISOString().split('T')[0]
       };
       

@@ -4,10 +4,11 @@ import { getProduct, updateProduct, deleteProduct } from '../../../../lib/supaba
 // GET /api/products/[id] - Get a specific product
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const product = await getProduct(params.id);
+    const { id } = await params;
+    const product = await getProduct(id);
     
     if (!product) {
       return NextResponse.json(
@@ -29,12 +30,13 @@ export async function GET(
 // PUT /api/products/[id] - Update a product
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     
-    const product = await updateProduct(params.id, body);
+    const product = await updateProduct(id, body);
     
     if (!product) {
       return NextResponse.json(
@@ -56,10 +58,11 @@ export async function PUT(
 // DELETE /api/products/[id] - Delete a product
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const success = await deleteProduct(params.id);
+    const { id } = await params;
+    const success = await deleteProduct(id);
     
     if (!success) {
       return NextResponse.json(

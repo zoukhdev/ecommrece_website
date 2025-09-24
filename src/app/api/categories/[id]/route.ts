@@ -4,11 +4,12 @@ import { getCategories } from '../../../../lib/supabase';
 // GET /api/categories/[id] - Get a specific category
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const categories = await getCategories();
-    const category = categories.find(cat => cat.id === params.id);
+    const category = categories.find(cat => cat.id === id);
     
     if (!category) {
       return NextResponse.json(

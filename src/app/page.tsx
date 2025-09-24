@@ -21,48 +21,48 @@ export default function Home() {
       title: t('home.slider.welcome.title'),
       subtitle: t('home.slider.welcome.subtitle'),
       description: t('home.slider.welcome.description'),
-      image: &quot;https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=600&fit=crop&quot;,
-      gradient: &quot;from-blue-600 via-purple-600 to-indigo-700&quot;,
+      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=600&fit=crop",
+      gradient: "from-blue-600 via-purple-600 to-indigo-700",
       buttonText: t('btn.shop_now'),
-      buttonLink: &quot;/products&quot;,
+      buttonLink: "/products",
       secondaryButtonText: t('btn.browse_categories'),
-      secondaryButtonLink: &quot;/categories&quot;
+      secondaryButtonLink: "/categories"
     },
     {
       id: 2,
       title: t('home.slider.electronics.title'),
       subtitle: t('home.slider.electronics.subtitle'),
       description: t('home.slider.electronics.description'),
-      image: &quot;https://images.unsplash.com/photo-1498049794561-7780e7231661?w=1200&h=600&fit=crop&quot;,
-      gradient: &quot;from-green-600 via-teal-600 to-cyan-700&quot;,
+      image: "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=1200&h=600&fit=crop",
+      gradient: "from-green-600 via-teal-600 to-cyan-700",
       buttonText: t('btn.view_electronics'),
-      buttonLink: &quot;/categories/electronics&quot;,
+      buttonLink: "/categories/electronics",
       secondaryButtonText: t('btn.learn_more'),
-      secondaryButtonLink: &quot;/about&quot;
+      secondaryButtonLink: "/about"
     },
     {
       id: 3,
       title: t('home.slider.fashion.title'),
       subtitle: t('home.slider.fashion.subtitle'),
       description: t('home.slider.fashion.description'),
-      image: &quot;https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=600&fit=crop&quot;,
-      gradient: &quot;from-pink-600 via-rose-600 to-red-700&quot;,
+      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=600&fit=crop",
+      gradient: "from-pink-600 via-rose-600 to-red-700",
       buttonText: t('btn.shop_fashion'),
-      buttonLink: &quot;/categories/clothing&quot;,
+      buttonLink: "/categories/clothing",
       secondaryButtonText: t('btn.view_collection'),
-      secondaryButtonLink: &quot;/products&quot;
+      secondaryButtonLink: "/products"
     },
     {
       id: 4,
       title: t('home.slider.home.title'),
       subtitle: t('home.slider.home.subtitle'),
       description: t('home.slider.home.description'),
-      image: &quot;https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&h=600&fit=crop&quot;,
-      gradient: &quot;from-orange-600 via-amber-600 to-yellow-700&quot;,
+      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&h=600&fit=crop",
+      gradient: "from-orange-600 via-amber-600 to-yellow-700",
       buttonText: t('btn.shop_home'),
-      buttonLink: &quot;/categories/home-kitchen&quot;,
+      buttonLink: "/categories/home-kitchen",
       secondaryButtonText: t('btn.get_inspired'),
-      secondaryButtonLink: &quot;/categories&quot;
+      secondaryButtonLink: "/categories"
     }
   ];
 
@@ -319,7 +319,7 @@ export default function Home() {
                 <div 
                   className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                   style={{ 
-                    backgroundImage: `url(${category.image || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400'})` 
+                    backgroundImage: `url(${category.image || "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400"})` 
                   }}
                 >
                   {/* Dark Transparent Overlay */}

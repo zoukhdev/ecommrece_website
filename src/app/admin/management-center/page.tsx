@@ -320,7 +320,8 @@ export default function AdminManagementCenter() {
         status: 'active' as const,
         lastLogin: 'Never',
         permissions: getRolePermissions(newUser.role),
-        joinDate: new Date().toISOString().split('T')[0]
+        joinDate: new Date().toISOString().split('T')[0],
+        role: newUser.role as 'owner' | 'developer' | 'inventory_manager' | 'marketing_manager' | 'staff'
       };
       
       setUsers([...users, userData]);
@@ -338,16 +339,21 @@ export default function AdminManagementCenter() {
   };
 
   const handlePermissionToggle = (role: string, permission: string) => {
-    setRolePermissions(prev => ({
-      ...prev,
-      [role]: {
-        ...prev[role as keyof typeof prev],
-        permissions: {
-          ...prev[role as keyof typeof prev].permissions,
-          [permission]: !prev[role as keyof typeof prev].permissions[permission as keyof typeof prev.permissions]
+    setRolePermissions(prev => {
+      const rolePermissions = prev[role as keyof typeof prev];
+      if (!rolePermissions) return prev;
+      
+      return {
+        ...prev,
+        [role]: {
+          ...rolePermissions,
+          permissions: {
+            ...rolePermissions.permissions,
+            [permission]: !(rolePermissions.permissions as any)[permission]
+          }
         }
-      }
-    }));
+      };
+    });
   };
 
   const handleSaveRolePermissions = () => {

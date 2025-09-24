@@ -231,11 +231,17 @@ export default function AdminCustomerService() {
         ...newTicket,
         id: `TKT-${Date.now().toString().slice(-6)}`,
         status: 'open' as const,
+        priority: newTicket.priority as 'low' | 'medium' | 'high' | 'urgent',
+        category: newTicket.category as 'technical' | 'billing' | 'shipping' | 'product' | 'general',
         assignedTo: newTicket.assignedTo,
         createdAt: new Date().toISOString().split('T')[0],
         updatedAt: new Date().toISOString().split('T')[0],
         messages: 1,
-        tags: [newTicket.category]
+        tags: [newTicket.category],
+        customer: {
+          name: newTicket.customerName,
+          email: newTicket.customerEmail
+        }
       };
       
       setTickets([ticketData, ...tickets]);

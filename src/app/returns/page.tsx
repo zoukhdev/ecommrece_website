@@ -57,7 +57,7 @@ export default function ReturnsPage() {
               </div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Start Return</h3>
               <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Log into your account and go to "My Orders" to start a return request.
+                Log into your account and go to &quot;My Orders&quot; to start a return request.
               </p>
             </div>
 

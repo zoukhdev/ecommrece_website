@@ -64,7 +64,7 @@ export default function ShippingPage() {
                   <div>
                     <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">Processing Time</h3>
                     <p className="text-gray-600 dark:text-gray-400">
-                      Orders are processed within 1-2 business days. You'll receive a confirmation email once your order ships.
+                      Orders are processed within 1-2 business days. You&apos;ll receive a confirmation email once your order ships.
                     </p>
                   </div>
                 </div>
@@ -74,7 +74,7 @@ export default function ShippingPage() {
                   <div>
                     <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">Tracking Information</h3>
                     <p className="text-gray-600 dark:text-gray-400">
-                      Track your package in real-time with our tracking system. You'll receive updates via email and SMS.
+                      Track your package in real-time with our tracking system. You&apos;ll receive updates via email and SMS.
                     </p>
                   </div>
                 </div>

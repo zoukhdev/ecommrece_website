@@ -18,12 +18,12 @@ export default function OrderSuccessPage() {
             Order Placed Successfully!
           </h1>
           <p className="text-gray-600 mb-8">
-            Thank you for your purchase. We've received your order and will send you a confirmation email shortly.
+            Thank you for your purchase. We&apos;ve received your order and will send you a confirmation email shortly.
           </p>
 
           {/* Order Details */}
           <div className="bg-gray-50 rounded-lg p-6 mb-8">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">What's Next?</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">What&apos;s Next?</h2>
             <div className="space-y-4">
               <div className="flex items-center text-left">
                 <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4">

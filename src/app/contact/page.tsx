@@ -33,7 +33,7 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Contact Us</h1>
           <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
-            We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+            We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.
           </p>
         </div>
       </section>
@@ -179,7 +179,7 @@ export default function ContactPage() {
                 <div>
                   <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">How can I track my order?</h3>
                   <p className="text-gray-600 dark:text-gray-400 text-sm">
-                    Once your order ships, you'll receive a tracking number via email. You can also check your order status in your account.
+                    Once your order ships, you&apos;ll receive a tracking number via email. You can also check your order status in your account.
                   </p>
                 </div>
                 <div>

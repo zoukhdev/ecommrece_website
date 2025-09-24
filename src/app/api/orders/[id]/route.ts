@@ -4,10 +4,11 @@ import { getOrder, updateOrder } from '../../../../lib/supabase';
 // GET /api/orders/[id] - Get a specific order
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const order = await getOrder(params.id);
+    const { id } = await params;
+    const order = await getOrder(id);
     
     if (!order) {
       return NextResponse.json(
@@ -29,12 +30,13 @@ export async function GET(
 // PUT /api/orders/[id] - Update an order
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     
-    const order = await updateOrder(params.id, body);
+    const order = await updateOrder(id, body);
     
     if (!order) {
       return NextResponse.json(
