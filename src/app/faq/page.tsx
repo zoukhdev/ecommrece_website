@@ -24,7 +24,7 @@ export default function FAQPage() {
         },
         {
           q: 'How do I create an account?',
-          a: 'Creating an account is easy! Click on "Sign Up" in the top right corner, enter your email address and create a password. You can also sign up using your Google or Facebook account for faster registration.'
+          a: 'Creating an account is easy! Click on &quot;Sign Up&quot; in the top right corner, enter your email address and create a password. You can also sign up using your Google or Facebook account for faster registration.'
         },
         {
           q: 'Is my personal information secure?',
@@ -50,7 +50,7 @@ export default function FAQPage() {
         },
         {
           q: 'How do I track my order?',
-          a: 'Once your order ships, you\'ll receive a tracking number via email. You can also track your order by logging into your account and going to "My Orders" section.'
+          a: 'Once your order ships, you&apos;ll receive a tracking number via email. You can also track your order by logging into your account and going to &quot;My Orders&quot; section.'
         },
         {
           q: 'What payment methods do you accept?',
@@ -98,7 +98,7 @@ export default function FAQPage() {
         },
         {
           q: 'How do I return an item?',
-          a: 'Log into your account, go to "My Orders", and click "Return Item" next to the order you want to return. Print the prepaid return label and send the item back to us.'
+          a: 'Log into your account, go to &quot;My Orders&quot;, and click &quot;Return Item&quot; next to the order you want to return. Print the prepaid return label and send the item back to us.'
         },
         {
           q: 'How long do refunds take?',
@@ -120,11 +120,11 @@ export default function FAQPage() {
       questions: [
         {
           q: 'How do I update my account information?',
-          a: 'Log into your account and go to "Account Settings" to update your personal information, shipping addresses, payment methods, and notification preferences.'
+          a: 'Log into your account and go to &quot;Account Settings&quot; to update your personal information, shipping addresses, payment methods, and notification preferences.'
         },
         {
           q: 'I forgot my password. How do I reset it?',
-          a: 'Click "Forgot Password" on the login page and enter your email address. We\'ll send you a link to reset your password. Check your spam folder if you don\'t see the email.'
+          a: 'Click &quot;Forgot Password&quot; on the login page and enter your email address. We&apos;ll send you a link to reset your password. Check your spam folder if you don&apos;t see the email.'
         },
         {
           q: 'How do I delete my account?',
@@ -231,7 +231,7 @@ export default function FAQPage() {
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/20 p-8 transition-colors duration-300">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Still Have Questions?</h2>
             <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
-              Can't find the answer you're looking for? Our customer service team is here to help you 24/7.
+              Can&apos;t find the answer you&apos;re looking for? Our customer service team is here to help you 24/7.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
