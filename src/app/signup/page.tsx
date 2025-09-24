@@ -63,8 +63,14 @@ export default function SignupPage() {
       // Create user in Supabase Auth first
       const { createClient } = await import('@supabase/supabase-js');
       
+      // Use your actual Supabase credentials
       const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://bbtypnulrkkdvvfupxws.supabase.co';
       const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJidHlwbnVscmtrZHZ2ZnVweHdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3MDE2NDksImV4cCI6MjA3NDI3NzY0OX0.zAXeNagYcELcs9jlEJxzAfhgAjknhA2ZWv-pkn7hrrM';
+      
+      // Validate URL format
+      if (!supabaseUrl.startsWith('http://') && !supabaseUrl.startsWith('https://')) {
+        throw new Error(`Invalid Supabase URL format: ${supabaseUrl}. Must start with http:// or https://`);
+      }
       
       console.log('Supabase URL:', supabaseUrl);
       console.log('Supabase Key (first 20 chars):', supabaseKey.substring(0, 20) + '...');
