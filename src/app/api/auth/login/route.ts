@@ -51,10 +51,13 @@ export async function POST(request: NextRequest) {
     }
     
     // Use Supabase authentication for real users
+    console.log('Attempting Supabase auth for:', email);
     const { data, error } = await signIn(email, password);
     
     if (error) {
       console.error('Supabase auth error:', error);
+      console.error('Error code:', error.code);
+      console.error('Error message:', error.message);
       
       // Provide more specific error messages
       if (error.message?.includes('Invalid login credentials')) {
@@ -74,6 +77,8 @@ export async function POST(request: NextRequest) {
         );
       }
     }
+    
+    console.log('Supabase auth successful, data:', data);
     
     // Get user details from Supabase Auth
     const { user: authUser } = await getCurrentUser();
