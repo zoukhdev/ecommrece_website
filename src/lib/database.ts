@@ -116,7 +116,7 @@ export interface User {
 }
 
 // Mock database for development
-let mockDatabase: Database = {
+const mockDatabase: Database = {
   products: [],
   categories: [],
   orders: [],

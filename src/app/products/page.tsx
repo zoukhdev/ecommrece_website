@@ -7,14 +7,14 @@ import ProductCard from '../../components/ProductCard';
 import { categories } from '../../data/categories';
 import { Filter, SortAsc } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { apiService } from '../../lib/api';
+import { apiService, Product } from '../../lib/api';
 
 function ProductsPageContent() {
   const searchParams = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('name');
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const { t } = useLanguage();
 

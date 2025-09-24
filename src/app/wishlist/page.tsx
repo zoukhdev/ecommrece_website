@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Heart, ShoppingCart, Trash2 } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../lib/cartSlice';
+import { Product } from '../../lib/api';
 import toast from 'react-hot-toast';
 
 // Mock wishlist data - in a real app, this would come from Redux store or API
@@ -53,7 +54,7 @@ export default function WishlistPage() {
     toast.success('Removed from wishlist');
   };
 
-  const handleAddToCart = (item: any) => {
+  const handleAddToCart = (item: Product) => {
     dispatch(addToCart({ ...item, quantity: 1 }));
     toast.success(`${item.name} added to cart!`);
   };
