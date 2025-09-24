@@ -66,6 +66,9 @@ export default function SignupPage() {
       const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://bbtypnulrkkdvvfupxws.supabase.co';
       const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJidHlwbnVscmtrZHZ2ZnVweHdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3MDE2NDksImV4cCI6MjA3NDI3NzY0OX0.zAXeNagYcELcs9jlEJxzAfhgAjknhA2ZWv-pkn7hrrM';
       
+      console.log('Supabase URL:', supabaseUrl);
+      console.log('Supabase Key (first 20 chars):', supabaseKey.substring(0, 20) + '...');
+      
       const supabase = createClient(supabaseUrl, supabaseKey);
       
       // Sign up user in Supabase Auth
@@ -83,7 +86,8 @@ export default function SignupPage() {
       
       if (authError) {
         console.error('Auth signup error:', authError);
-        toast.error(authError.message || 'Failed to create account. Please try again.');
+        console.error('Auth error details:', JSON.stringify(authError, null, 2));
+        toast.error(`Auth error: ${authError.message || 'Failed to create account. Please try again.'}`);
         return;
       }
       
@@ -116,7 +120,14 @@ export default function SignupPage() {
       }
     } catch (error) {
       console.error('Signup error:', error);
-      toast.error('Signup failed. Please try again.');
+      console.error('Error details:', error);
+      
+      // Provide more specific error messages
+      if (error instanceof Error) {
+        toast.error(`Signup failed: ${error.message}`);
+      } else {
+        toast.error('Signup failed. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }
