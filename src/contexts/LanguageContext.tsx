@@ -118,8 +118,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       'products.results_count': { en: 'products found', fr: 'produits trouvés' },
       
       // Categories page
-      'categories.title': { en: 'All Categories', fr: 'Toutes les Catégories' },
-      'categories.subtitle': { en: 'Browse our product categories', fr: 'Parcourez nos catégories de produits' },
+      'categories.page_title': { en: 'All Categories', fr: 'Toutes les Catégories' },
+      'categories.page_subtitle': { en: 'Browse our product categories', fr: 'Parcourez nos catégories de produits' },
       'categories.featured': { en: 'Featured Categories', fr: 'Catégories Vedettes' },
       'categories.all_categories': { en: 'All Categories', fr: 'Toutes les Catégories' },
       'categories.products_count': { en: 'products', fr: 'produits' },

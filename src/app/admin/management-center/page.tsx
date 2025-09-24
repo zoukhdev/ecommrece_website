@@ -343,13 +343,15 @@ export default function AdminManagementCenter() {
       const rolePermissions = prev[role as keyof typeof prev];
       if (!rolePermissions) return prev;
       
+      const permissions = rolePermissions.permissions as Record<string, boolean>;
+      
       return {
         ...prev,
         [role]: {
           ...rolePermissions,
           permissions: {
             ...rolePermissions.permissions,
-            [permission]: !(rolePermissions.permissions as any)[permission]
+            [permission]: !permissions[permission]
           }
         }
       };
@@ -548,7 +550,7 @@ export default function AdminManagementCenter() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          {user.role === 'admin' && <Crown className="w-4 h-4 text-red-500 mr-2" />}
+                          {user.role === 'owner' && <Crown className="w-4 h-4 text-red-500 mr-2" />}
                           <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getRoleColor(user.role)}`}>
                             {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
                           </span>

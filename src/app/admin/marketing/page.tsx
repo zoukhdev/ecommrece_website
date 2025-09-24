@@ -8,7 +8,7 @@ import {
   TrendingUp,
   Users,
   Eye,
-  Click,
+  MousePointerClick,
   Share2,
   Plus,
   Edit,

@@ -5,26 +5,16 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://bbtypnulrkk
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJidHlwbnVscmtrZHZ2ZnVweHdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3MDE2NDksImV4cCI6MjA3NDI3NzY0OX0.zAXeNagYcELcs9jlEJxzAfhgAjknhA2ZWv-pkn7hrrM';
 
 // Create Supabase client with error handling
-let supabase: ReturnType<typeof createClient> | null = null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let supabase: any;
 
 try {
   supabase = createClient(supabaseUrl, supabaseKey);
 } catch (error) {
   console.warn('Failed to initialize Supabase client:', error);
   // Create a mock client for build time
-  supabase = {
-    from: () => ({
-      select: () => ({ data: [], error: null }),
-      insert: () => ({ data: null, error: null }),
-      update: () => ({ data: null, error: null }),
-      delete: () => ({ data: null, error: null }),
-    }),
-    auth: {
-      signInWithPassword: () => ({ data: null, error: null }),
-      signOut: () => ({ error: null }),
-      getUser: () => ({ user: null, error: null }),
-    }
-  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  supabase = {} as any;
 }
 
 export { supabase };
@@ -506,7 +496,8 @@ export const getAnalytics = async () => {
       .from('orders')
       .select('total_amount');
 
-    const totalSales = ordersData?.reduce((sum, order) => sum + order.total_amount, 0) || 0;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const totalSales = ordersData?.reduce((sum: number, order: any) => sum + order.total_amount, 0) || 0;
 
     // Get total orders
     const { count: totalOrders } = await supabase

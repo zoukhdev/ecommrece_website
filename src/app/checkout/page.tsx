@@ -42,15 +42,10 @@ export default function CheckoutPage() {
     try {
       // Create order data
       const orderData = {
-        customerId: '1', // In a real app, this would come from authentication
-        items: items.map(item => ({
-          productId: item.id,
-          name: item.name,
-          quantity: item.quantity,
-          price: item.price,
-          image: item.image,
-        })),
-        shippingAddress: {
+        customer_id: '1', // In a real app, this would come from authentication
+        status: 'pending' as const,
+        total_amount: items.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+        shipping_address: {
           firstName: formData.firstName,
           lastName: formData.lastName,
           email: formData.email,
@@ -60,6 +55,10 @@ export default function CheckoutPage() {
           state: formData.state,
           zipCode: formData.zipCode,
         },
+        payment_method: 'credit_card',
+        payment_status: 'pending',
+        shipping_method: 'standard',
+        notes: `Order placed on ${new Date().toLocaleDateString()}`
       };
 
       // Create order via API

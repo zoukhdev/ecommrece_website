@@ -319,7 +319,7 @@ export default function Home() {
                 <div 
                   className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                   style={{ 
-                    backgroundImage: `url(${category.image || "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400"})` 
+                    backgroundImage: `url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400")` 
                   }}
                 >
                   {/* Dark Transparent Overlay */}

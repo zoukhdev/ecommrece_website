@@ -21,6 +21,7 @@ const mockWishlistItems = [
     brand: 'Sony',
     rating: 4.8,
     reviews: 2847,
+    description: 'Premium noise-canceling wireless headphones with exceptional sound quality and comfort.',
   },
   {
     id: '2',
@@ -31,6 +32,7 @@ const mockWishlistItems = [
     brand: 'Apple',
     rating: 4.7,
     reviews: 1923,
+    description: 'The latest Apple Watch with advanced health monitoring and fitness tracking features.',
   },
   {
     id: '3',
@@ -42,6 +44,7 @@ const mockWishlistItems = [
     brand: 'Nike',
     rating: 4.6,
     reviews: 1234,
+    description: 'Comfortable running shoes with maximum air cushioning for all-day comfort.',
   },
 ];
 

@@ -125,7 +125,8 @@ export default function AdminShipping() {
       const methodData = {
         ...newMethod,
         cost: parseFloat(newMethod.cost),
-        id: Date.now().toString()
+        id: Date.now().toString(),
+        type: newMethod.type as 'standard' | 'express' | 'overnight' | 'free'
       };
       
       setShippingMethods([...shippingMethods, methodData]);
