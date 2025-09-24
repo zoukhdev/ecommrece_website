@@ -54,10 +54,25 @@ export async function POST(request: NextRequest) {
     const { data, error } = await signIn(email, password);
     
     if (error) {
-      return NextResponse.json(
-        { error: 'Invalid credentials' },
-        { status: 401 }
-      );
+      console.error('Supabase auth error:', error);
+      
+      // Provide more specific error messages
+      if (error.message?.includes('Invalid login credentials')) {
+        return NextResponse.json(
+          { error: 'Invalid email or password' },
+          { status: 401 }
+        );
+      } else if (error.message?.includes('Email not confirmed')) {
+        return NextResponse.json(
+          { error: 'Please check your email and click the verification link before signing in' },
+          { status: 401 }
+        );
+      } else {
+        return NextResponse.json(
+          { error: `Login failed: ${error.message}` },
+          { status: 401 }
+        );
+      }
     }
     
     // Get user details from our users table

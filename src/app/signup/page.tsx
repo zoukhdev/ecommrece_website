@@ -86,7 +86,9 @@ export default function SignupPage() {
             first_name: formData.firstName,
             last_name: formData.lastName,
             phone: formData.phone,
-          }
+          },
+          // Disable email confirmation for development
+          emailRedirectTo: undefined
         }
       });
       
@@ -120,7 +122,7 @@ export default function SignupPage() {
           // This is not critical - the auth user was created successfully
         }
         
-        toast.success('Account created successfully! Please check your email to verify your account.');
+        toast.success('Account created successfully! You can now sign in.');
         // Redirect to login page
         window.location.href = '/login';
       }
