@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import ProductCard from '../../components/ProductCard';
 import { categories } from '../../data/categories';
 import { Filter, SortAsc } from 'lucide-react';
@@ -167,12 +168,12 @@ function ProductsPageContent() {
               >
                 Clear Filters
               </button>
-              <a
+              <Link
                 href="/categories"
                 className="border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
                 Browse Categories
-              </a>
+              </Link>
             </div>
           </div>
         )}

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import Link from 'next/link';
 import { RootState } from '../../lib/store';
 import { clearCart } from '../../lib/cartSlice';
 import { CreditCard, Lock, Truck, Shield } from 'lucide-react';
@@ -91,12 +92,12 @@ export default function CheckoutPage() {
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">Your Cart is Empty</h1>
           <p className="text-gray-600 dark:text-gray-400 mb-8">Add some products to proceed to checkout!</p>
-          <a
+          <Link
             href="/products"
             className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
           >
             Continue Shopping
-          </a>
+          </Link>
         </div>
       </div>
     );

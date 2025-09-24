@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Footer() {
   return (
     <footer className="bg-gray-900 dark:bg-gray-950 text-white transition-colors duration-300">
@@ -15,10 +17,10 @@ export default function Footer() {
           <div>
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              <li><a href="/products" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-200 transition-colors">Products</a></li>
-              <li><a href="/categories" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-200 transition-colors">Categories</a></li>
-              <li><a href="/about" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-200 transition-colors">About Us</a></li>
-              <li><a href="/contact" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-200 transition-colors">Contact</a></li>
+              <li><Link href="/products" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-200 transition-colors">Products</Link></li>
+              <li><Link href="/categories" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-200 transition-colors">Categories</Link></li>
+              <li><Link href="/about" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-200 transition-colors">About Us</Link></li>
+              <li><Link href="/contact" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-200 transition-colors">Contact</Link></li>
             </ul>
           </div>
 
@@ -26,10 +28,10 @@ export default function Footer() {
           <div>
             <h4 className="text-lg font-semibold mb-4">Customer Service</h4>
             <ul className="space-y-2">
-              <li><a href="/shipping" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-200 transition-colors">Shipping Info</a></li>
-              <li><a href="/returns" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-200 transition-colors">Returns</a></li>
-              <li><a href="/faq" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-200 transition-colors">FAQ</a></li>
-              <li><a href="/support" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-200 transition-colors">Support</a></li>
+              <li><Link href="/shipping" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-200 transition-colors">Shipping Info</Link></li>
+              <li><Link href="/returns" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-200 transition-colors">Returns</Link></li>
+              <li><Link href="/faq" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-200 transition-colors">FAQ</Link></li>
+              <li><Link href="/support" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-200 transition-colors">Support</Link></li>
             </ul>
           </div>
         </div>

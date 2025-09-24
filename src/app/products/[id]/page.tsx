@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../../lib/cartSlice';
 import { products } from '../../../data/products';
@@ -27,12 +28,12 @@ export default function ProductDetailPage() {
           </div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Product Not Found</h1>
           <p className="text-gray-500 dark:text-gray-400 text-lg mb-8">The product you're looking for doesn't exist.</p>
-          <a
+          <Link
             href="/products"
             className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
           >
             Browse Products
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -73,11 +74,11 @@ export default function ProductDetailPage() {
         {/* Breadcrumb */}
         <nav className="mb-8">
           <ol className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
-            <li><a href="/" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</a></li>
+            <li><Link href="/" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</Link></li>
             <li>/</li>
-            <li><a href="/products" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Products</a></li>
+            <li><Link href="/products" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Products</Link></li>
             <li>/</li>
-            <li><a href={`/categories/${product.category.toLowerCase()}`} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{product.category}</a></li>
+            <li><Link href={`/categories/${product.category.toLowerCase()}`} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{product.category}</Link></li>
             <li>/</li>
             <li className="text-gray-900 dark:text-gray-100">{product.name}</li>
           </ol>

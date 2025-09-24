@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { MessageCircle, Phone, Mail, Clock, HelpCircle, FileText, CreditCard, Truck, Package, User } from 'lucide-react';
 
 export default function SupportPage() {
@@ -178,7 +179,7 @@ export default function SupportPage() {
               <p className="text-gray-600 dark:text-gray-400 mb-4">
                 Check your email for order confirmation or log into your account to view order history.
               </p>
-              <a href="/orders" className="text-blue-600 dark:text-blue-400 hover:underline">View Order History</a>
+              <Link href="/orders" className="text-blue-600 dark:text-blue-400 hover:underline">View Order History</Link>
             </div>
 
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/20 p-6 transition-colors duration-300">
@@ -186,7 +187,7 @@ export default function SupportPage() {
               <p className="text-gray-600 dark:text-gray-400 mb-4">
                 Try a different payment method or check with your bank. Contact us if the issue persists.
               </p>
-              <a href="/contact" className="text-blue-600 dark:text-blue-400 hover:underline">Contact Support</a>
+              <Link href="/contact" className="text-blue-600 dark:text-blue-400 hover:underline">Contact Support</Link>
             </div>
 
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/20 p-6 transition-colors duration-300">
@@ -194,7 +195,7 @@ export default function SupportPage() {
               <p className="text-gray-600 dark:text-gray-400 mb-4">
                 Start a return request from your account or contact us for assistance with the return process.
               </p>
-              <a href="/returns" className="text-blue-600 dark:text-blue-400 hover:underline">Start Return</a>
+              <Link href="/returns" className="text-blue-600 dark:text-blue-400 hover:underline">Start Return</Link>
             </div>
 
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/20 p-6 transition-colors duration-300">
@@ -202,7 +203,7 @@ export default function SupportPage() {
               <p className="text-gray-600 dark:text-gray-400 mb-4">
                 Reset your password or contact us to regain access to your account.
               </p>
-              <a href="/forgot-password" className="text-blue-600 dark:text-blue-400 hover:underline">Reset Password</a>
+              <Link href="/forgot-password" className="text-blue-600 dark:text-blue-400 hover:underline">Reset Password</Link>
             </div>
           </div>
         </section>
