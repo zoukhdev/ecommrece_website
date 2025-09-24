@@ -1,17 +1,29 @@
 import { createClient } from '@supabase/supabase-js';
 
 // Supabase configuration
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://bbtypnulrkkdvvfupxws.supabase.co';
+let supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://bbtypnulrkkdvvfupxws.supabase.co';
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJidHlwbnVscmtrZHZ2ZnVweHdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3MDE2NDksImV4cCI6MjA3NDI3NzY0OX0.zAXeNagYcELcs9jlEJxzAfhgAjknhA2ZWv-pkn7hrrM';
+
+// Ensure URL has proper protocol
+if (supabaseUrl && !supabaseUrl.startsWith('http://') && !supabaseUrl.startsWith('https://')) {
+  supabaseUrl = `https://${supabaseUrl}`;
+}
 
 // Create Supabase client with error handling
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let supabase: any;
 
 try {
+  // Debug logging
+  console.log('Initializing Supabase with URL:', supabaseUrl);
+  console.log('Supabase key length:', supabaseKey ? supabaseKey.length : 'undefined');
+  
   supabase = createClient(supabaseUrl, supabaseKey);
+  console.log('Supabase client initialized successfully');
 } catch (error) {
-  console.warn('Failed to initialize Supabase client:', error);
+  console.error('Failed to initialize Supabase client:', error);
+  console.error('URL:', supabaseUrl);
+  console.error('Key available:', !!supabaseKey);
   // Create a mock client for build time
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   supabase = {} as any;
