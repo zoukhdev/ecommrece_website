@@ -45,6 +45,8 @@ export async function POST(request: NextRequest) {
         userId: userDetails.id,
         email: userDetails.email,
         role: userDetails.role,
+        firstName: userDetails.first_name,
+        lastName: userDetails.last_name,
         exp: Date.now() + 24 * 60 * 60 * 1000 // 24 hours
       })).toString('base64');
       

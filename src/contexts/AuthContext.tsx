@@ -36,9 +36,44 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       // Check if there's a stored user session
       const storedUser = localStorage.getItem('user');
+      const storedToken = localStorage.getItem('token');
+      
       if (storedUser) {
         const parsedUser = JSON.parse(storedUser);
         setUser(parsedUser);
+      } else if (storedToken) {
+        // If we have a token but no user, try to decode it for demo users
+        try {
+          const tokenData = JSON.parse(Buffer.from(storedToken, 'base64').toString());
+          
+          // Check if token is expired
+          if (tokenData.exp && Date.now() > tokenData.exp) {
+            console.log('Token expired, clearing session');
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            return;
+          }
+          
+          if (tokenData.userId && tokenData.email && tokenData.role) {
+            // Create user object from token data
+            const userFromToken = {
+              id: tokenData.userId,
+              email: tokenData.email,
+              first_name: tokenData.firstName || 'Demo',
+              last_name: tokenData.lastName || 'User',
+              role: tokenData.role,
+              is_active: true,
+              created_at: new Date().toISOString()
+            };
+            setUser(userFromToken);
+            localStorage.setItem('user', JSON.stringify(userFromToken));
+          }
+        } catch (tokenError) {
+          console.error('Error parsing token:', tokenError);
+          // Clear invalid token
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+        }
       }
     } catch (error) {
       console.error('Error checking user:', error);
