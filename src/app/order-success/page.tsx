@@ -40,7 +40,7 @@ export default function OrderSuccessPage() {
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-900">Processing</h3>
-                  <p className="text-sm text-gray-600">We're preparing your order</p>
+                  <p className="text-sm text-gray-600">We&apos;re preparing your order</p>
                 </div>
               </div>
               <div className="flex items-center text-left">

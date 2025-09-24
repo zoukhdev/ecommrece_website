@@ -71,7 +71,7 @@ export default function SupportPage() {
     },
     {
       title: 'Email Support',
-      description: 'Send us a detailed message and we\'ll respond quickly',
+      description: 'Send us a detailed message and we&apos;ll respond quickly',
       icon: <Mail className="w-8 h-8" />,
       availability: 'Response within 24 hours',
       action: 'Send Email',
@@ -86,7 +86,7 @@ export default function SupportPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Customer Support</h1>
           <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
-            We're here to help! Get assistance with your orders, account, or any questions you may have.
+            We&apos;re here to help! Get assistance with your orders, account, or any questions you may have.
           </p>
         </div>
       </section>
@@ -175,7 +175,7 @@ export default function SupportPage() {
           <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-8 text-center">Common Issues</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/20 p-6 transition-colors duration-300">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Can't find your order?</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Can&apos;t find your order?</h3>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
                 Check your email for order confirmation or log into your account to view order history.
               </p>
@@ -212,7 +212,7 @@ export default function SupportPage() {
         <section className="text-center">
           <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-8">Still Need Help?</h2>
           <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
-            Our support team is dedicated to helping you. Don't hesitate to reach out with any questions or concerns.
+            Our support team is dedicated to helping you. Don&apos;t hesitate to reach out with any questions or concerns.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a

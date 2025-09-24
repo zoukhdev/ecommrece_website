@@ -201,7 +201,7 @@ export default function ReturnsPage() {
                   <li>• Returns must be initiated within 30 days of delivery</li>
                   <li>• Items must be in original, unused condition</li>
                   <li>• Original packaging and tags must be included</li>
-                  <li>• We reserve the right to refuse returns that don't meet our conditions</li>
+                  <li>• We reserve the right to refuse returns that don&apos;t meet our conditions</li>
                   <li>• Refunds will be processed to the original payment method</li>
                   <li>• Return shipping is free for most items (exceptions apply)</li>
                 </ul>

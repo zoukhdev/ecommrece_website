@@ -99,7 +99,7 @@ export default function CategoryPage() {
               </div>
               <h2 className="text-2xl font-bold text-gray-900 mb-4">No Products Found</h2>
               <p className="text-gray-600 mb-8">
-                We don't have any products in this category yet. Check back soon!
+                We don&apos;t have any products in this category yet. Check back soon!
               </p>
               <Link
                 href="/products"

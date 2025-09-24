@@ -10,7 +10,7 @@ export default function CustomerServicePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Customer Service</h1>
           <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
-            Your satisfaction is our priority. We're committed to providing exceptional customer service every step of the way.
+            Your satisfaction is our priority. We&apos;re committed to providing exceptional customer service every step of the way.
           </p>
         </div>
       </section>
