@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { Eye, EyeOff, Mail, Lock, User, Phone, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { apiService } from '../../lib/api';
@@ -19,6 +20,27 @@ export default function SignupPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
+  const searchParams = useSearchParams();
+  const [returnTo, setReturnTo] = useState('/account'); // Default redirect
+
+  // Handle returnTo parameter from URL
+  useEffect(() => {
+    const returnToParam = searchParams.get('returnTo');
+    if (returnToParam) {
+      // Validate the returnTo URL to prevent open redirects
+      try {
+        const url = new URL(returnToParam, window.location.origin);
+        if (url.origin === window.location.origin) {
+          setReturnTo(returnToParam);
+          console.log('🔍 Signup Page: Return to URL set to:', returnToParam);
+        } else {
+          console.log('🔍 Signup Page: Invalid returnTo URL, using default');
+        }
+      } catch (error) {
+        console.log('🔍 Signup Page: Invalid returnTo URL, using default');
+      }
+    }
+  }, [searchParams]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -123,8 +145,8 @@ export default function SignupPage() {
         }
         
         toast.success('Account created successfully! You can now sign in.');
-        // Redirect to login page
-        window.location.href = '/login';
+        // Redirect to login page with returnTo parameter
+        window.location.href = `/login?returnTo=${encodeURIComponent(returnTo)}`;
       }
     } catch (error) {
       console.error('Signup error:', error);

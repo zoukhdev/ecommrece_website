@@ -1,18 +1,43 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { RootState } from '../../lib/store';
 import { clearCart } from '../../lib/cartSlice';
 import { CreditCard, Lock, Truck, Shield } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { apiService } from '../../lib/api';
+import { useAuth } from '../../contexts/AuthContext';
+import { getLoginUrl } from '../../lib/auth-utils';
 
 export default function CheckoutPage() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { items, total } = useSelector((state: RootState) => state.cart);
   const [isProcessing, setIsProcessing] = useState(false);
+  const { isAuthenticated, user } = useAuth();
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push(getLoginUrl('/checkout'));
+    }
+  }, [isAuthenticated, router]);
+
+  // Pre-fill form with user data if available
+  useEffect(() => {
+    if (user && isAuthenticated) {
+      setFormData(prev => ({
+        ...prev,
+        firstName: user.first_name || '',
+        lastName: user.last_name || '',
+        email: user.email || ''
+      }));
+    }
+  }, [user, isAuthenticated]);
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -84,6 +109,18 @@ export default function CheckoutPage() {
   const tax = total * 0.08;
   const shipping = total > 50 ? 0 : 9.99;
   const finalTotal = total + tax + shipping;
+
+  // Show loading state while checking authentication
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">Redirecting to login...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (items.length === 0) {
     return (

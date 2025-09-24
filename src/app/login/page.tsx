@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { Eye, EyeOff, Mail, Lock, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../contexts/AuthContext';
@@ -15,6 +16,27 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
+  const searchParams = useSearchParams();
+  const [returnTo, setReturnTo] = useState('/account'); // Default redirect
+
+  // Handle returnTo parameter from URL
+  useEffect(() => {
+    const returnToParam = searchParams.get('returnTo');
+    if (returnToParam) {
+      // Validate the returnTo URL to prevent open redirects
+      try {
+        const url = new URL(returnToParam, window.location.origin);
+        if (url.origin === window.location.origin) {
+          setReturnTo(returnToParam);
+          console.log('🔍 Login Page: Return to URL set to:', returnToParam);
+        } else {
+          console.log('🔍 Login Page: Invalid returnTo URL, using default');
+        }
+      } catch (error) {
+        console.log('🔍 Login Page: Invalid returnTo URL, using default');
+      }
+    }
+  }, [searchParams]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -46,9 +68,9 @@ export default function LoginPage() {
         
         toast.success('Login successful!');
         
-        // Redirect to account page or home
-        console.log('🔍 Login Page: Redirecting to /account...');
-        window.location.href = '/account';
+        // Redirect to the returnTo URL or default to account page
+        console.log('🔍 Login Page: Redirecting to:', returnTo);
+        window.location.href = returnTo;
       } else {
         console.log('🔍 Login Page: Login failed:', response.error);
         toast.error(response.error || 'Login failed. Please try again.');

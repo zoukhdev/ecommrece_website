@@ -9,6 +9,7 @@ import DarkModeToggle from './DarkModeToggle';
 import LanguageDropdown from './LanguageDropdown';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
+import { getLoginUrl, getCurrentUrl } from '../lib/auth-utils';
 
 export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -152,13 +153,13 @@ export default function Header() {
                 <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                   <div className="py-2">
                     <Link
-                      href="/login"
+                      href={getLoginUrl(getCurrentUrl())}
                       className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                     >
                       Sign In
                     </Link>
                     <Link
-                      href="/signup"
+                      href={`/signup?returnTo=${encodeURIComponent(getCurrentUrl())}`}
                       className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                     >
                       Create Account
@@ -262,14 +263,14 @@ export default function Header() {
               ) : (
                 <>
                   <Link 
-                    href="/login" 
+                    href={getLoginUrl(getCurrentUrl())} 
                     className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Sign In
                   </Link>
                   <Link 
-                    href="/signup" 
+                    href={`/signup?returnTo=${encodeURIComponent(getCurrentUrl())}`} 
                     className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
