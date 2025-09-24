@@ -60,21 +60,52 @@ export default function SignupPage() {
     setIsLoading(true);
 
     try {
-      // Create customer account
-      const response = await apiService.createCustomer({
-        first_name: formData.firstName,
-        last_name: formData.lastName,
+      // Create user in Supabase Auth first
+      const { createClient } = await import('@supabase/supabase-js');
+      
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://bbtypnulrkkdvvfupxws.supabase.co';
+      const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJidHlwbnVscmtrZHZ2ZnVweHdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3MDE2NDksImV4cCI6MjA3NDI3NzY0OX0.zAXeNagYcELcs9jlEJxzAfhgAjknhA2ZWv-pkn7hrrM';
+      
+      const supabase = createClient(supabaseUrl, supabaseKey);
+      
+      // Sign up user in Supabase Auth
+      const { data: authData, error: authError } = await supabase.auth.signUp({
         email: formData.email,
-        phone: formData.phone,
-        address: {}
+        password: formData.password,
+        options: {
+          data: {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            phone: formData.phone,
+          }
+        }
       });
       
-      if (response.data && response.data.customer) {
-        toast.success('Account created successfully!');
-        // Redirect to login page
-        window.location.href = '/login';
-      } else {
-        toast.error(response.error || 'Signup failed. Please try again.');
+      if (authError) {
+        console.error('Auth signup error:', authError);
+        toast.error(authError.message || 'Failed to create account. Please try again.');
+        return;
+      }
+      
+      if (authData.user) {
+        // Create customer record in database
+        const response = await apiService.createCustomer({
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          address: {}
+        });
+        
+        if (response.data && response.data.customer) {
+          toast.success('Account created successfully! Please check your email to verify your account.');
+          // Redirect to login page
+          window.location.href = '/login';
+        } else {
+          // User created in auth but not in customers table
+          toast.success('Account created successfully! Please check your email to verify your account.');
+          window.location.href = '/login';
+        }
       }
     } catch (error) {
       console.error('Signup error:', error);

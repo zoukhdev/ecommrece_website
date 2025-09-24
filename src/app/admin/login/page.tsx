@@ -27,9 +27,12 @@ export default function AdminLoginPage() {
     setIsLoading(true);
 
     try {
+      console.log('Attempting login with:', formData.email);
       const response = await apiService.login(formData.email, formData.password);
+      console.log('Login response:', response);
       
       if (response.data) {
+        console.log('Login successful, storing token:', response.data.token);
         // Store token in localStorage and cookies
         localStorage.setItem('adminToken', response.data.token);
         localStorage.setItem('adminUser', JSON.stringify(response.data.user));
@@ -38,9 +41,11 @@ export default function AdminLoginPage() {
         document.cookie = `adminToken=${response.data.token}; path=/; max-age=86400`; // 24 hours
         
         toast.success('Login successful!');
+        console.log('Redirecting to /admin');
         // Redirect to admin dashboard
         window.location.href = '/admin';
       } else {
+        console.error('Login failed:', response.error);
         throw new Error(response.error || 'Login failed');
       }
     } catch (error) {
