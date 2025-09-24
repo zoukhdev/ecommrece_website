@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getProducts, createProduct } from '../../../lib/supabase';
-import { products as localProducts } from '../../../data/products';
 
 // GET /api/products - Get all products
 export async function GET(request: NextRequest) {
@@ -10,12 +9,6 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search');
     
     let products = await getProducts();
-    
-    // If database products have local image paths, use local products data instead
-    if (products.length > 0 && products[0].image && products[0].image.startsWith('/images/')) {
-      console.log('Using local products data due to database image path issues');
-      products = localProducts;
-    }
     
     // Filter by category if provided
     if (category) {
@@ -35,28 +28,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ products });
   } catch (error) {
     console.error('Error fetching products:', error);
-    // Fallback to local products data
-    console.log('Falling back to local products data');
-    let products = localProducts;
-    
-    const { searchParams } = new URL(request.url);
-    const category = searchParams.get('category');
-    const search = searchParams.get('search');
-    
-    if (category) {
-      products = products.filter(product => product.category.toLowerCase() === category.toLowerCase());
-    }
-    
-    if (search) {
-      const searchLower = search.toLowerCase();
-      products = products.filter(product => 
-        product.name.toLowerCase().includes(searchLower) ||
-        product.description.toLowerCase().includes(searchLower) ||
-        product.brand?.toLowerCase().includes(searchLower)
-      );
-    }
-    
-    return NextResponse.json({ products });
+    return NextResponse.json(
+      { error: 'Failed to fetch products' },
+      { status: 500 }
+    );
   }
 }
 
@@ -76,14 +51,14 @@ export async function POST(request: NextRequest) {
     const product = await createProduct({
       name: body.name,
       price: body.price,
-      original_price: body.originalPrice,
+      original_price: body.original_price,
       image: body.image || '',
       category: body.category,
       description: body.description || '',
       images: body.images || [],
       rating: body.rating,
       reviews: body.reviews,
-      in_stock: body.inStock !== undefined ? body.inStock : true,
+      in_stock: body.in_stock !== undefined ? body.in_stock : true,
       brand: body.brand,
     });
 

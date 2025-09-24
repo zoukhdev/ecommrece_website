@@ -99,11 +99,15 @@ export default function AdminProducts() {
     e.preventDefault();
     try {
       const productData = {
-        ...newProduct,
+        name: newProduct.name,
         price: parseFloat(newProduct.price),
-        originalPrice: newProduct.originalPrice ? parseFloat(newProduct.originalPrice) : undefined,
+        original_price: newProduct.originalPrice ? parseFloat(newProduct.originalPrice) : undefined,
         image: newProduct.images.length > 0 ? newProduct.images[0] : '/placeholder-product.jpg',
         images: newProduct.images,
+        category: newProduct.category,
+        description: newProduct.description,
+        brand: newProduct.brand,
+        in_stock: newProduct.inStock,
         rating: 0,
         reviews: 0
       };

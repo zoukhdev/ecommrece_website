@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { DatabaseService } from '@/lib/database';
+import { getOrders, createOrder } from '../../../lib/supabase';
 
 // GET /api/orders - Get all orders
 export async function GET(request: NextRequest) {
@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status');
     const customerId = searchParams.get('customerId');
     
-    let orders = await DatabaseService.getOrders();
+    let orders = await getOrders();
     
     // Filter by status if provided
     if (status) {
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     
     // Filter by customer if provided
     if (customerId) {
-      orders = orders.filter(order => order.customerId === customerId);
+      orders = orders.filter(order => order.customer_id === customerId);
     }
     
     return NextResponse.json({ orders });
@@ -36,9 +36,9 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     
     // Validate required fields
-    if (!body.customerId || !body.items || !body.shippingAddress) {
+    if (!body.customer_id || !body.items || !body.shipping_address) {
       return NextResponse.json(
-        { error: 'Missing required fields: customerId, items, shippingAddress' },
+        { error: 'Missing required fields: customer_id, items, shipping_address' },
         { status: 400 }
       );
     }
@@ -46,16 +46,24 @@ export async function POST(request: NextRequest) {
     // Calculate total
     const total = body.items.reduce((sum: number, item: { price: number; quantity: number }) => sum + (item.price * item.quantity), 0);
     
-    const order = await DatabaseService.createOrder({
-      customerId: body.customerId,
-      items: body.items,
-      total,
+    const order = await createOrder({
+      customer_id: body.customer_id,
+      total_amount: total,
       status: 'pending',
-      paymentStatus: 'pending',
-      shippingAddress: body.shippingAddress,
-      orderDate: new Date().toISOString().split('T')[0],
-      estimatedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 7 days from now
+      shipping_address: body.shipping_address,
+      billing_address: body.billing_address,
+      payment_method: body.payment_method,
+      payment_status: 'pending',
+      shipping_method: body.shipping_method,
+      notes: body.notes,
     });
+    
+    if (!order) {
+      return NextResponse.json(
+        { error: 'Failed to create order' },
+        { status: 500 }
+      );
+    }
     
     return NextResponse.json({ order }, { status: 201 });
   } catch (error) {

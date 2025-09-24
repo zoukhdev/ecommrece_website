@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Eye, EyeOff, Mail, Lock, User, Phone, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { apiService } from '../../lib/api';
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -59,13 +60,24 @@ export default function SignupPage() {
     setIsLoading(true);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Create customer account
+      const response = await apiService.createCustomer({
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        address: {}
+      });
       
-      toast.success('Account created successfully!');
-      // Redirect to login page
-      window.location.href = '/login';
+      if (response.data && response.data.customer) {
+        toast.success('Account created successfully!');
+        // Redirect to login page
+        window.location.href = '/login';
+      } else {
+        toast.error(response.error || 'Signup failed. Please try again.');
+      }
     } catch (error) {
+      console.error('Signup error:', error);
       toast.error('Signup failed. Please try again.');
     } finally {
       setIsLoading(false);

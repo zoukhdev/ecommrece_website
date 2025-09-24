@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import ReduxProvider from '../components/ReduxProvider';
 import { ThemeProvider } from '../components/ThemeProvider';
 import { LanguageProvider } from '../contexts/LanguageContext';
+import { AuthProvider } from '../contexts/AuthContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Toaster } from 'react-hot-toast';
@@ -35,37 +36,39 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <LanguageProvider>
-            <ReduxProvider>
-              <Header />
-              <main className="min-h-screen">
-                {children}
-              </main>
-              <Footer />
-              <Toaster 
-                position="top-right"
-                toastOptions={{
-                  duration: 3000,
-                  style: {
-                    background: 'var(--toast-bg)',
-                    color: 'var(--toast-color)',
-                  },
-                  success: {
-                    duration: 2000,
-                    iconTheme: {
-                      primary: '#10B981',
-                      secondary: '#fff',
+            <AuthProvider>
+              <ReduxProvider>
+                <Header />
+                <main className="min-h-screen">
+                  {children}
+                </main>
+                <Footer />
+                <Toaster 
+                  position="top-right"
+                  toastOptions={{
+                    duration: 3000,
+                    style: {
+                      background: 'var(--toast-bg)',
+                      color: 'var(--toast-color)',
                     },
-                  },
-                  error: {
-                    duration: 4000,
-                    iconTheme: {
-                      primary: '#EF4444',
-                      secondary: '#fff',
+                    success: {
+                      duration: 2000,
+                      iconTheme: {
+                        primary: '#10B981',
+                        secondary: '#fff',
+                      },
                     },
-                  },
-                }}
-              />
-            </ReduxProvider>
+                    error: {
+                      duration: 4000,
+                      iconTheme: {
+                        primary: '#EF4444',
+                        secondary: '#fff',
+                      },
+                    },
+                  }}
+                />
+              </ReduxProvider>
+            </AuthProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>

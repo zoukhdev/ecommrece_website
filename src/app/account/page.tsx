@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { 
   User, 
@@ -18,17 +18,28 @@ import {
   Star
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useAuth } from '../../contexts/AuthContext';
+import { useRouter } from 'next/navigation';
 
 export default function AccountPage() {
   const [activeTab, setActiveTab] = useState('overview');
   const [isEditing, setIsEditing] = useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
+  const router = useRouter();
 
-  // Mock user data
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/login');
+    }
+  }, [isAuthenticated, router]);
+
+  // Mock user data (you can replace this with real API calls)
   const userData = {
-    name: 'John Doe',
-    email: 'john.doe@example.com',
+    name: user ? `${user.first_name} ${user.last_name}` : 'Guest User',
+    email: user?.email || 'guest@example.com',
     phone: '+1 (555) 123-4567',
-    joinDate: 'January 2024',
+    joinDate: user?.created_at ? new Date(user.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 'Unknown',
     totalOrders: 12,
     totalSpent: '$1,234.56',
     loyaltyPoints: 1250,
@@ -104,9 +115,9 @@ export default function AccountPage() {
   };
 
   const handleLogout = () => {
+    logout();
     toast.success('Logged out successfully');
-    // Redirect to home page
-    window.location.href = '/';
+    router.push('/');
   };
 
   const tabs = [
@@ -117,6 +128,15 @@ export default function AccountPage() {
     { id: 'payment', label: 'Payment', icon: CreditCard },
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
+
+  // Show loading state while checking authentication
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">

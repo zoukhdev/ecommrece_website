@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { DatabaseService } from '@/lib/database';
+import { getAnalytics } from '../../../lib/supabase';
 
 // GET /api/analytics - Get analytics data
 export async function GET(request: NextRequest) {
   try {
-    const analytics = await DatabaseService.getAnalytics();
+    const analytics = await getAnalytics();
     
     return NextResponse.json({ analytics });
   } catch (error) {

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { DatabaseService } from '@/lib/database';
+import { getOrder, updateOrder } from '../../../../lib/supabase';
 
 // GET /api/orders/[id] - Get a specific order
 export async function GET(
@@ -7,7 +7,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const order = await DatabaseService.getOrder(params.id);
+    const order = await getOrder(params.id);
     
     if (!order) {
       return NextResponse.json(
@@ -34,7 +34,7 @@ export async function PUT(
   try {
     const body = await request.json();
     
-    const order = await DatabaseService.updateOrder(params.id, body);
+    const order = await updateOrder(params.id, body);
     
     if (!order) {
       return NextResponse.json(

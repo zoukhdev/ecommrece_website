@@ -4,6 +4,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Eye, EyeOff, Mail, Lock, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useAuth } from '../../contexts/AuthContext';
+import { apiService } from '../../lib/api';
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -12,6 +14,7 @@ export default function LoginPage() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -26,18 +29,24 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const response = await apiService.login(formData.email, formData.password);
       
-      // For demo purposes, accept any email/password
-      if (formData.email && formData.password) {
+      if (response.data && response.data.user) {
+        // Store the token
+        localStorage.setItem('token', response.data.token);
+        
+        // Login the user in the context
+        login(response.data.user);
+        
         toast.success('Login successful!');
+        
         // Redirect to account page or home
         window.location.href = '/account';
       } else {
-        toast.error('Please fill in all fields');
+        toast.error(response.error || 'Login failed. Please try again.');
       }
     } catch (error) {
+      console.error('Login error:', error);
       toast.error('Login failed. Please try again.');
     } finally {
       setIsLoading(false);

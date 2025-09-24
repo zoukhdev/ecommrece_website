@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { DatabaseService } from '@/lib/database';
+import { getProduct, updateProduct, deleteProduct } from '../../../../lib/supabase';
 
 // GET /api/products/[id] - Get a specific product
 export async function GET(
@@ -7,7 +7,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const product = await DatabaseService.getProduct(params.id);
+    const product = await getProduct(params.id);
     
     if (!product) {
       return NextResponse.json(
@@ -34,7 +34,7 @@ export async function PUT(
   try {
     const body = await request.json();
     
-    const product = await DatabaseService.updateProduct(params.id, body);
+    const product = await updateProduct(params.id, body);
     
     if (!product) {
       return NextResponse.json(
@@ -59,7 +59,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const success = await DatabaseService.deleteProduct(params.id);
+    const success = await deleteProduct(params.id);
     
     if (!success) {
       return NextResponse.json(

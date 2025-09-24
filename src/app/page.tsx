@@ -2,14 +2,15 @@
 
 import Link from 'next/link';
 import ProductCard from '../components/ProductCard';
-import { products } from '../data/products';
-import { categories as categoryData } from '../data/categories';
+import { apiService } from '../lib/api';
 import { ShoppingBag, Truck, Shield, Headphones, ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 export default function Home() {
-  const featuredProducts = products.slice(0, 8);
+  const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const { t } = useLanguage();
   
   // Slider data
@@ -66,6 +67,32 @@ export default function Home() {
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
+  // Fetch data from API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [productsResponse, categoriesResponse] = await Promise.all([
+          apiService.getProducts(),
+          apiService.getCategories()
+        ]);
+        
+        if (productsResponse.data) {
+          setFeaturedProducts(productsResponse.data.products.slice(0, 8));
+        }
+        
+        if (categoriesResponse.data) {
+          setCategories(categoriesResponse.data.categories);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // Auto-play functionality
   useEffect(() => {
@@ -266,9 +293,21 @@ export default function Home() {
             <p className="text-gray-600 dark:text-gray-400 text-lg">{t('categories.subtitle')}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {categoryData
-              .filter(category => category.id !== 'electronics') // Remove electronics category
-              .map((category, index) => (
+            {loading ? (
+              // Loading skeleton
+              Array.from({ length: 4 }).map((_, index) => (
+                <div key={index} className="relative h-64 rounded-xl overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 animate-pulse">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <div className="w-16 h-16 bg-gray-300 dark:bg-gray-600 rounded-full mb-4"></div>
+                    <div className="w-24 h-4 bg-gray-300 dark:bg-gray-600 rounded mb-2"></div>
+                    <div className="w-32 h-3 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              categories
+                .filter(category => category.name !== 'Electronics') // Remove electronics category
+                .map((category, index) => (
               <Link
                 key={category.id}
                 href={`/categories/${category.id}`}
@@ -279,7 +318,7 @@ export default function Home() {
                 <div 
                   className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                   style={{ 
-                    backgroundImage: `url(${category.image})` 
+                    backgroundImage: `url(${category.image || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400'})` 
                   }}
                 >
                   {/* Dark Transparent Overlay */}
@@ -288,13 +327,13 @@ export default function Home() {
                   {/* Content */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-6">
                     <div className="w-16 h-16 mx-auto mb-4 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <span className="text-2xl">{category.icon}</span>
+                      <ShoppingBag className="w-8 h-8" />
                     </div>
                     <h3 className="font-bold text-xl text-center group-hover:text-blue-300 transition-colors mb-2">
                       {category.name}
                     </h3>
                     <p className="text-sm text-center text-gray-200 group-hover:text-white transition-colors">
-                      {category.description}
+                      {category.description || 'Shop now'}
                     </p>
                     <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <span className="text-sm font-medium bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
@@ -304,7 +343,8 @@ export default function Home() {
                   </div>
                 </div>
               </Link>
-            ))}
+                ))
+            )}
           </div>
         </div>
       </section>
@@ -317,15 +357,26 @@ export default function Home() {
             <p className="text-gray-600 dark:text-gray-400 text-lg">{t('featured.subtitle')}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {featuredProducts.map((product, index) => (
-              <div 
-                key={product.id} 
-                className="animate-fadeIn"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <ProductCard product={product} />
-              </div>
-            ))}
+            {loading ? (
+              // Loading skeleton for products
+              Array.from({ length: 8 }).map((_, index) => (
+                <div key={index} className="animate-pulse">
+                  <div className="bg-gray-200 dark:bg-gray-700 rounded-lg h-64 mb-4"></div>
+                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-2"></div>
+                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+                </div>
+              ))
+            ) : (
+              featuredProducts.map((product, index) => (
+                <div 
+                  key={product.id} 
+                  className="animate-fadeIn"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <ProductCard product={product} />
+                </div>
+              ))
+            )}
           </div>
           <div className="text-center mt-12">
             <Link
