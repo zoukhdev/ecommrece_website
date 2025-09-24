@@ -3,13 +3,14 @@
 import Link from 'next/link';
 import ProductCard from '../components/ProductCard';
 import { apiService } from '../lib/api';
+import { Product, Category } from '../lib/supabase';
 import { ShoppingBag, Truck, Shield, Headphones, ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 export default function Home() {
-  const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const { t } = useLanguage();
   
@@ -20,48 +21,48 @@ export default function Home() {
       title: t('home.slider.welcome.title'),
       subtitle: t('home.slider.welcome.subtitle'),
       description: t('home.slider.welcome.description'),
-      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=600&fit=crop",
-      gradient: "from-blue-600 via-purple-600 to-indigo-700",
+      image: &quot;https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=600&fit=crop&quot;,
+      gradient: &quot;from-blue-600 via-purple-600 to-indigo-700&quot;,
       buttonText: t('btn.shop_now'),
-      buttonLink: "/products",
+      buttonLink: &quot;/products&quot;,
       secondaryButtonText: t('btn.browse_categories'),
-      secondaryButtonLink: "/categories"
+      secondaryButtonLink: &quot;/categories&quot;
     },
     {
       id: 2,
       title: t('home.slider.electronics.title'),
       subtitle: t('home.slider.electronics.subtitle'),
       description: t('home.slider.electronics.description'),
-      image: "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=1200&h=600&fit=crop",
-      gradient: "from-green-600 via-teal-600 to-cyan-700",
+      image: &quot;https://images.unsplash.com/photo-1498049794561-7780e7231661?w=1200&h=600&fit=crop&quot;,
+      gradient: &quot;from-green-600 via-teal-600 to-cyan-700&quot;,
       buttonText: t('btn.view_electronics'),
-      buttonLink: "/categories/electronics",
+      buttonLink: &quot;/categories/electronics&quot;,
       secondaryButtonText: t('btn.learn_more'),
-      secondaryButtonLink: "/about"
+      secondaryButtonLink: &quot;/about&quot;
     },
     {
       id: 3,
       title: t('home.slider.fashion.title'),
       subtitle: t('home.slider.fashion.subtitle'),
       description: t('home.slider.fashion.description'),
-      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=600&fit=crop",
-      gradient: "from-pink-600 via-rose-600 to-red-700",
+      image: &quot;https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=600&fit=crop&quot;,
+      gradient: &quot;from-pink-600 via-rose-600 to-red-700&quot;,
       buttonText: t('btn.shop_fashion'),
-      buttonLink: "/categories/clothing",
+      buttonLink: &quot;/categories/clothing&quot;,
       secondaryButtonText: t('btn.view_collection'),
-      secondaryButtonLink: "/products"
+      secondaryButtonLink: &quot;/products&quot;
     },
     {
       id: 4,
       title: t('home.slider.home.title'),
       subtitle: t('home.slider.home.subtitle'),
       description: t('home.slider.home.description'),
-      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&h=600&fit=crop",
-      gradient: "from-orange-600 via-amber-600 to-yellow-700",
+      image: &quot;https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&h=600&fit=crop&quot;,
+      gradient: &quot;from-orange-600 via-amber-600 to-yellow-700&quot;,
       buttonText: t('btn.shop_home'),
-      buttonLink: "/categories/home-kitchen",
+      buttonLink: &quot;/categories/home-kitchen&quot;,
       secondaryButtonText: t('btn.get_inspired'),
-      secondaryButtonLink: "/categories"
+      secondaryButtonLink: &quot;/categories&quot;
     }
   ];
 

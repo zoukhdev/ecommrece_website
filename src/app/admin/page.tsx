@@ -16,7 +16,6 @@ interface Metric {
 }
 
 export default function AdminDashboard() {
-  const { t } = useLanguage();
   const router = useRouter();
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
   const [loading, setLoading] = useState(true);
@@ -311,7 +310,7 @@ export default function AdminDashboard() {
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                <span className="text-sm text-gray-600 dark:text-gray-400">Product "Sony Headphones" updated</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">Product &quot;Sony Headphones&quot; updated</span>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
@@ -319,7 +318,7 @@ export default function AdminDashboard() {
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                <span className="text-sm text-gray-600 dark:text-gray-400">Inventory low for "Apple Watch"</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">Inventory low for &quot;Apple Watch&quot;</span>
               </div>
             </div>
           </div>
