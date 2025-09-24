@@ -45,7 +45,7 @@ export default function AdminSettings() {
     language: 'en',
   });
 
-  const handleInputChange = (field: string, value: any) => {
+  const handleInputChange = (field: string, value: string | number | boolean) => {
     setSettings(prev => ({
       ...prev,
       [field]: value

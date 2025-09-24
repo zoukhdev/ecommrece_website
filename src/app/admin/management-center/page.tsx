@@ -847,7 +847,7 @@ export default function AdminManagementCenter() {
                     <select
                       required
                       value={newUser.role}
-                      onChange={(e) => setNewUser({...newUser, role: e.target.value as any})}
+                      onChange={(e) => setNewUser({...newUser, role: e.target.value as 'staff' | 'inventory_manager' | 'marketing_manager' | 'admin' | 'owner'})}
                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
                       <option value="staff">Staff</option>

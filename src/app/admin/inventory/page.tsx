@@ -16,7 +16,7 @@ import {
   ShoppingCart,
   Clock
 } from 'lucide-react';
-import { apiService } from '../../../lib/api';
+import { apiService, Product } from '../../../lib/api';
 
 interface InventoryItem {
   id: string;
@@ -61,7 +61,7 @@ export default function AdminInventory() {
       const response = await apiService.getProducts();
       if (response.data) {
         // Convert products to inventory items with mock stock data
-        const inventoryItems: InventoryItem[] = response.data.products.map((product: any, index: number) => ({
+        const inventoryItems: InventoryItem[] = response.data.products.map((product: Product) => ({
           id: product.id,
           name: product.name,
           sku: `SKU-${product.id.padStart(4, '0')}`,

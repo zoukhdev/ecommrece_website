@@ -5,7 +5,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://bbtypnulrkk
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJidHlwbnVscmtrZHZ2ZnVweHdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg3MDE2NDksImV4cCI6MjA3NDI3NzY0OX0.zAXeNagYcELcs9jlEJxzAfhgAjknhA2ZWv-pkn7hrrM';
 
 // Create Supabase client with error handling
-let supabase: any = null;
+let supabase: ReturnType<typeof createClient> | null = null;
 
 try {
   supabase = createClient(supabaseUrl, supabaseKey);
@@ -59,8 +59,8 @@ export interface Order {
   customer_id: string;
   status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
   total_amount: number;
-  shipping_address: any;
-  billing_address?: any;
+  shipping_address: Record<string, unknown>;
+  billing_address?: Record<string, unknown>;
   payment_method?: string;
   payment_status?: string;
   shipping_method?: string;
@@ -96,7 +96,7 @@ export interface Customer {
   first_name: string;
   last_name: string;
   phone?: string;
-  address?: any;
+  address?: Record<string, unknown>;
   created_at: string;
   updated_at?: string;
 }

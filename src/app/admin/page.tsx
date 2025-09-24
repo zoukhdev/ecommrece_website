@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { apiService } from '../../lib/api';
+import { apiService, Analytics } from '../../lib/api';
 import { DollarSign, ShoppingCart, Users, Package, TrendingUp, AlertCircle, Tag, Truck, CreditCard, Megaphone, MessageSquare } from 'lucide-react';
 
 interface Metric {
@@ -11,14 +11,14 @@ interface Metric {
   value: string;
   change: string;
   changeType: 'positive' | 'negative';
-  icon: any;
+  icon: React.ComponentType<{ className?: string }>;
   iconColor: string;
 }
 
 export default function AdminDashboard() {
   const { t } = useLanguage();
   const router = useRouter();
-  const [analytics, setAnalytics] = useState<any>(null);
+  const [analytics, setAnalytics] = useState<Analytics | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

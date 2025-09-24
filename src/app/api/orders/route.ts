@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     }
     
     // Calculate total
-    const total = body.items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
+    const total = body.items.reduce((sum: number, item: { price: number; quantity: number }) => sum + (item.price * item.quantity), 0);
     
     const order = await DatabaseService.createOrder({
       customerId: body.customerId,
