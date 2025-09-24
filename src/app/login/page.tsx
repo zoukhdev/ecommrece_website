@@ -32,17 +32,25 @@ export default function LoginPage() {
       const response = await apiService.login(formData.email, formData.password);
       
       if (response.data && response.data.user) {
+        console.log('🔍 Login Page: Login successful, storing data...');
+        console.log('🔍 Login Page: User data:', response.data.user);
+        console.log('🔍 Login Page: Token:', response.data.token ? 'exists' : 'null');
+        
         // Store the token
         localStorage.setItem('token', response.data.token);
+        console.log('🔍 Login Page: Token stored in localStorage');
         
         // Login the user in the context
         login(response.data.user);
+        console.log('🔍 Login Page: User logged in via AuthContext');
         
         toast.success('Login successful!');
         
         // Redirect to account page or home
+        console.log('🔍 Login Page: Redirecting to /account...');
         window.location.href = '/account';
       } else {
+        console.log('🔍 Login Page: Login failed:', response.error);
         toast.error(response.error || 'Login failed. Please try again.');
       }
     } catch (error) {

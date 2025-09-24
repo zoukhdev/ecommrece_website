@@ -29,10 +29,17 @@ export default function AccountPage() {
 
   // Redirect if not authenticated
   useEffect(() => {
+    console.log('🔍 Account Page: Checking authentication...');
+    console.log('🔍 Account Page: isAuthenticated:', isAuthenticated);
+    console.log('🔍 Account Page: user:', user);
+    
     if (!isAuthenticated) {
+      console.log('🔍 Account Page: Not authenticated, redirecting to login...');
       router.push('/login');
+    } else {
+      console.log('🔍 Account Page: User is authenticated, staying on account page');
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router, user]);
 
   // Mock user data (you can replace this with real API calls)
   const userData = {
