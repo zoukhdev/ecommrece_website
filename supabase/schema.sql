@@ -293,3 +293,20 @@ CREATE POLICY "Admins can manage all customers" ON customers FOR ALL USING (
         AND users.role IN ('owner', 'admin', 'developer')
     )
 );
+
+-- Create policies for users table (drop and recreate to handle duplicates)
+DROP POLICY IF EXISTS "Anyone can create users" ON users;
+DROP POLICY IF EXISTS "Users can view their own data" ON users;
+DROP POLICY IF EXISTS "Admins can manage all users" ON users;
+
+CREATE POLICY "Anyone can create users" ON users FOR INSERT WITH CHECK (true);
+CREATE POLICY "Users can view their own data" ON users FOR SELECT USING (
+    id::text = auth.uid()::text
+);
+CREATE POLICY "Admins can manage all users" ON users FOR ALL USING (
+    EXISTS (
+        SELECT 1 FROM users 
+        WHERE users.id::text = auth.uid()::text 
+        AND users.role IN ('owner', 'admin', 'developer')
+    )
+);

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { signIn, getUser, getCurrentUser } from '../../../../lib/supabase';
+import { signIn, getUser, getCurrentUser, createUser } from '../../../../lib/supabase';
 
 // POST /api/auth/login - User login
 export async function POST(request: NextRequest) {
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
       }
     }
     
-    // Get user details from our users table
+    // Get user details from Supabase Auth
     const { user: authUser } = await getCurrentUser();
     
     if (!authUser) {
@@ -85,10 +85,49 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Get additional user details from our users table
-    const userDetails = await getUser(authUser.id);
+    // Check if user exists in our users table, if not create a basic user record
+    let userDetails = await getUser(authUser.id);
     
-    if (!userDetails || !userDetails.is_active) {
+    if (!userDetails) {
+      // User doesn't exist in our users table, create a basic record
+      console.log('Creating user record for Supabase Auth user:', authUser.id);
+      
+      // Extract user data from Supabase Auth metadata
+      const firstName = authUser.user_metadata?.first_name || 'User';
+      const lastName = authUser.user_metadata?.last_name || '';
+      const email = authUser.email || '';
+      
+      // Create user record in our users table
+      const newUser = await createUser({
+        email: email,
+        first_name: firstName,
+        last_name: lastName,
+        role: 'staff', // Default role for regular users
+        is_active: true, // Supabase Auth users are active by default
+        password_hash: '' // No password hash needed for Supabase Auth users
+      });
+      
+      if (newUser) {
+        userDetails = newUser;
+        console.log('User record created successfully');
+      } else {
+        // If we can't create a user record, still allow login with basic info
+        userDetails = {
+          id: authUser.id,
+          email: email,
+          first_name: firstName,
+          last_name: lastName,
+          role: 'staff',
+          is_active: true,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+        console.log('Using basic user info from Supabase Auth');
+      }
+    }
+    
+    // Check if user is active
+    if (!userDetails.is_active) {
       return NextResponse.json(
         { error: 'Account is deactivated' },
         { status: 401 }
