@@ -174,6 +174,13 @@ SELECT * FROM (VALUES
 ) AS v(name, description, price, original_price, category, brand, image, rating, reviews, in_stock)
 WHERE NOT EXISTS (SELECT 1 FROM products WHERE products.name = v.name);
 
+-- Update existing products with local image paths to use Unsplash URLs
+UPDATE products SET image = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400' WHERE image = '/images/sony-headphones.jpg';
+UPDATE products SET image = 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400' WHERE image = '/images/apple-watch.jpg';
+UPDATE products SET image = 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400' WHERE image = '/images/samsung-phone.jpg';
+UPDATE products SET image = 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400' WHERE image = '/images/nike-shoes.jpg';
+UPDATE products SET image = 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400' WHERE image = '/images/macbook-pro.jpg';
+
 -- Insert sample shipping methods (only if they don't exist)
 INSERT INTO shipping_methods (name, type, cost, estimated_days, description, regions)
 SELECT * FROM (VALUES
@@ -267,5 +274,22 @@ CREATE POLICY "Customers can view their own orders" ON orders FOR SELECT USING (
 CREATE POLICY "Customers can create orders" ON orders FOR INSERT WITH CHECK (
     customer_id IN (
         SELECT id FROM customers WHERE email = auth.jwt() ->> 'email'
+    )
+);
+
+-- Create policies for customers table (drop and recreate to handle duplicates)
+DROP POLICY IF EXISTS "Anyone can create customers" ON customers;
+DROP POLICY IF EXISTS "Customers can view their own data" ON customers;
+DROP POLICY IF EXISTS "Admins can manage all customers" ON customers;
+
+CREATE POLICY "Anyone can create customers" ON customers FOR INSERT WITH CHECK (true);
+CREATE POLICY "Customers can view their own data" ON customers FOR SELECT USING (
+    email = auth.jwt() ->> 'email'
+);
+CREATE POLICY "Admins can manage all customers" ON customers FOR ALL USING (
+    EXISTS (
+        SELECT 1 FROM users 
+        WHERE users.id::text = auth.uid()::text 
+        AND users.role IN ('owner', 'admin', 'developer')
     )
 );
